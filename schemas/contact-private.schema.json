@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvcraft.local/schemas/contact-private.schema.json",
+  "title": "CVCraft private contact details",
+  "description": "Details that appear only in the send build (PDF/.docx you send directly), never on the web or in public downloads (D-006, D-024).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "phone": { "type": "string", "pattern": "^[0-9()+.\\- ]{7,}$" }
+  }
+}

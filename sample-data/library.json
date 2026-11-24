@@ -1,0 +1,85 @@
+{
+  "$schema": "../schemas/library.schema.json",
+  "version": 1,
+  "basics": {
+    "name": "Jordan Sample",
+    "label": "Senior Product Designer • Design Systems • Prototyping",
+    "email": "jordan@example.com",
+    "location": { "city": "Springfield", "region": "OR" },
+    "profiles": [
+      { "id": "profile.linkedin", "network": "LinkedIn", "url": "https://www.linkedin.com/in/example/" },
+      { "id": "profile.portfolio", "network": "Portfolio", "url": "https://example.com/" }
+    ]
+  },
+  "summaries": [
+    {
+      "id": "summary.about",
+      "paragraphs": [
+        "Product designer who turns messy workflows into calm, consistent interfaces, and builds the shared components that keep them that way."
+      ]
+    }
+  ],
+  "work": [
+    {
+      "id": "work.acme",
+      "name": "Acme Freight",
+      "description": "Acme Freight is a fictional logistics company used for CVCraft demos.",
+      "startDate": "2022-03",
+      "positions": [
+        {
+          "id": "pos.acme.senior",
+          "position": "Senior Product Designer",
+          "startDate": "2022-03",
+          "summary": "Lead design for shipment tracking across web and mobile.",
+          "highlights": [
+            { "id": "hl.acme.system", "text": "Launched a shared component library used by 4 product teams, cutting UI review time by a third.", "tags": ["systems"] },
+            { "id": "hl.acme.tracking", "text": "Redesigned shipment tracking, reducing support tickets about delivery status by 20%.", "tags": ["product"] },
+            { "id": "hl.acme.mentoring", "text": "Mentored two junior designers through weekly critique and paired work.", "tags": ["leadership"] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "work.example-health",
+      "name": "Example Health Co.",
+      "description": "Example Health Co. is a fictional clinic network used for CVCraft demos.",
+      "startDate": "2017",
+      "endDate": "2022",
+      "positions": [
+        {
+          "id": "pos.eh.designer",
+          "position": "Product Designer",
+          "startDate": "2019",
+          "endDate": "2022",
+          "highlights": [
+            { "id": "hl.eh.scheduling", "text": "Designed appointment scheduling used by 300 clinics." },
+            { "id": "hl.eh.accessibility", "text": "Led an accessibility audit and fixed 120 issues across the patient app." }
+          ]
+        },
+        {
+          "id": "pos.eh.ux",
+          "position": "UX Designer",
+          "startDate": "2017",
+          "endDate": "2019",
+          "highlights": [
+            { "id": "hl.eh.research", "text": "Ran monthly usability sessions with front-desk staff." }
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    { "id": "edu.bfa", "studyType": "BFA", "area": "Interaction Design", "institution": "Example State University" }
+  ],
+  "skills": [
+    { "id": "skill.systems", "name": "Design Systems", "keywords": ["component libraries", "design tokens", "documentation"] },
+    { "id": "skill.product", "name": "Product Design", "keywords": ["user research", "interaction design", "prototyping"] }
+  ],
+  "tools": [
+    { "id": "tools.design", "keywords": ["Figma", "Storybook"] },
+    { "id": "tools.code", "keywords": ["HTML/CSS", "React"] }
+  ],
+  "development": [
+    { "id": "dev.course", "name": "Accessible Design Fundamentals", "issuer": "Example Academy", "date": "2025-05" }
+  ]
+}

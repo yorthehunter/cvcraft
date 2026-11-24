@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/variant.schema.json",
+  "id": "acme-tailored",
+  "title": "One-off: tailored for a tracking-product role",
+  "sharing": "files-only",
+  "page": { "size": "letter", "maxPages": 1 },
+  "label": "Senior Product Designer • Logistics & Tracking",
+  "sections": [
+    { "type": "skills", "heading": "Skills", "items": [{ "ref": "skill.product" }, { "ref": "skill.systems" }] },
+    {
+      "type": "work",
+      "heading": "Experience",
+      "items": [
+        {
+          "ref": "work.acme",
+          "positions": [
+            {
+              "ref": "pos.acme.senior",
+              "highlights": [
+                {
+                  "ref": "hl.acme.tracking",
+                  "text": "Redesigned real-time shipment tracking for web and mobile, reducing delivery-status support tickets by 20%.",
+                  "overrideOf": "Redesigned shipment tracking, reducing support tickets about delivery status by 20%."
+                },
+                { "ref": "hl.acme.system" }
+              ]
+            }
+          ]
+        },
+        { "ref": "work.example-health", "positions": [{ "ref": "pos.eh.designer" }] }
+      ]
+    },
+    { "type": "education", "heading": "Education" }
+  ],
+  "notes": ["Shows a one-off: picks and reorders bullets, rewords one, drops a position, and is never published."]
+}

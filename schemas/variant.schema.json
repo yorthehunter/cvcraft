@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cvcraft.local/schemas/variant.schema.json",
+  "title": "CVCraft variant",
+  "description": "One resume version. It holds no content of its own except headline and bullet rewording: it picks library items by id and puts them in order (D-003). Leaving out a list means 'everything, in library order'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "sharing",
+    "page",
+    "sections"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "library.schema.json#/$defs/id"
+    },
+    "title": {
+      "description": "Name of the variant, for you (not shown on the resume).",
+      "type": "string",
+      "minLength": 1
+    },
+    "sharing": {
+      "description": "listed: published and linked. unlisted: published, noindex, not linked. files-only: PDF/.docx only, never published (D-025).",
+      "enum": [
+        "listed",
+        "unlisted",
+        "files-only"
+      ]
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "size"
+      ],
+      "properties": {
+        "size": {
+          "enum": [
+            "letter"
+          ]
+        },
+        "maxPages": {
+          "description": "Optional page-count target. No limit unless set; the editor (M2) warns when a variant runs longer than its target.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "label": {
+      "description": "Headline override for this variant. Falls back to basics.label.",
+      "type": "string",
+      "minLength": 1
+    },
+    "sections": {
+      "description": "Sections in display order. Each type may appear once.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/section"
+      }
+    },
+    "notes": {
+      "description": "Working notes and open questions. Never rendered.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "ref": {
+      "$ref": "library.schema.json#/$defs/id"
+    },
+    "pick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        }
+      }
+    },
+    "highlightPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "text": {
+          "description": "Rewording for this variant only.",
+          "type": "string",
+          "minLength": 1
+        },
+        "overrideOf": {
+          "description": "The library text at the time of rewording. If the library text changes later, validation flags the override as possibly stale.",
+          "type": "string"
+        }
+      },
+      "dependentRequired": {
+        "text": [
+          "overrideOf"
+        ]
+      }
+    },
+    "positionPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "highlights": {
+          "description": "Omit for all bullets in library order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/highlightPick"
+          }
+        }
+      }
+    },
+    "workPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/ref"
+        },
+        "positions": {
+          "description": "Omit for all positions and bullets in library order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/positionPick"
+          }
+        }
+      }
+    },
+    "note": {
+      "description": "A line at the end of a section, e.g. 'See LinkedIn for earlier work'.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": [
+        "type",
+        "heading"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "summary",
+            "skills",
+            "work",
+            "development",
+            "tools",
+            "education"
+          ]
+        },
+        "heading": {
+          "description": "Section heading as shown. Prefer standard names (Experience, Education, Skills) so parsers recognize them.",
+          "type": "string",
+          "minLength": 1
+        },
+        "note": {
+          "$ref": "#/$defs/note"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "summary"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "ref"
+            ],
+            "properties": {
+              "type": true,
+              "heading": true,
+              "note": true,
+              "ref": {
+                "$ref": "#/$defs/ref"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "work"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "heading": true,
+              "note": true,
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/workPick"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "skills",
+                  "development",
+                  "tools",
+                  "education"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "heading": true,
+              "note": true,
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/pick"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      ]
+    }
+  }
+}

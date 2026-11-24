@@ -1,0 +1,143 @@
+---
+// Single-column template. Layout and semantics live here; every visual value
+// comes from tokens.json (D-013). Reading order equals visual order, and every
+// separator a parser needs is real text, not CSS-generated content (D-005).
+import type { Resume } from "../../src/lib/resume";
+import { formatDate, showPositionDates } from "../../src/lib/format";
+import "./resume.css";
+
+interface Props {
+  resume: Resume;
+  baseUrl: string;
+}
+const { resume, baseUrl } = Astro.props;
+const headlineParts = resume.label.split(/\s+•\s+/);
+// ATS layout (sent files): contact right under the name, then the headline, and
+// each role written title first with its company on the next line (D-054).
+const ats = resume.layout === "ats";
+---
+
+<nav class="cv-toolbar" aria-label="Download">
+  <a class="cv-download" href={`${baseUrl}${resume.files.pdf}`} download>Download PDF</a>
+  <a class="cv-download" href={`${baseUrl}${resume.files.docx}`} download>Download .docx</a>
+</nav>
+
+<main class="cv">
+  <header class="cv-header">
+    <h1 class="cv-name">{resume.name}</h1>
+    {!ats && (
+      <p class="cv-headline">
+        {headlineParts.map((part, i) => (
+          <>{i > 0 && <span class="cv-sep"> • </span>}<span class="cv-headline-part">{part}</span></>
+        ))}
+      </p>
+    )}
+    <p class="cv-contact">
+      {resume.contact.map((c, i) => (
+        <>
+          {i > 0 && <span class="cv-sep"> | </span>}
+          {c.href ? <a class={`cv-contact-item cv-contact-${c.kind}`} href={c.href}>{c.text}</a> : <span class={`cv-contact-item cv-contact-${c.kind}`}>{c.text}</span>}
+        </>
+      ))}
+    </p>
+    {ats && (
+      <p class="cv-headline cv-headline-after-contact">
+        {headlineParts.map((part, i) => (
+          <>{i > 0 && <span class="cv-sep"> • </span>}<span class="cv-headline-part">{part}</span></>
+        ))}
+      </p>
+    )}
+  </header>
+
+  {resume.sections.map((section) => {
+    const id = `section-${section.type}`;
+    return (
+      <section class={`cv-section cv-section-${section.type}`} aria-labelledby={id}>
+        <h2 class="cv-section-head" id={id}>{section.heading}</h2>
+
+        {section.type === "summary" && section.paragraphs.map((p) => <p class="cv-paragraph">{p}</p>)}
+
+        {(section.type === "skills") && section.items.map((s) => (
+          <p class="cv-skill"><strong class="cv-skill-name">{s.name}:</strong> {s.keywords.join(", ")}</p>
+        ))}
+
+        {section.type === "tools" && (
+          <p class="cv-tools">
+            {section.items.map((g, i) => (
+              <>{i > 0 && <span class="cv-sep"> • </span>}{g.keywords.join(", ")}</>
+            ))}
+          </p>
+        )}
+
+        {section.type === "education" && section.items.map((e) => (
+          <div class="cv-education">
+            <p class="cv-row">
+              <strong class="cv-degree">{e.studyType}, {e.area}</strong>
+              {e.endDate && <span class="cv-dates">{formatDate(e.endDate)}</span>}
+            </p>
+            <p class="cv-institution">{e.institution}</p>
+          </div>
+        ))}
+
+        {section.type === "development" && section.items.map((c) => (
+          <p class="cv-row cv-course">
+            <span class="cv-row-main"><strong class="cv-course-name">{c.name}</strong><span class="cv-sep"> — </span>{c.issuer}{c.instructor && `, taught by ${c.instructor}`}</span>
+            {c.date && <time class="cv-dates" datetime={c.date}>{formatDate(c.date)}</time>}
+          </p>
+        ))}
+
+        {section.type === "work" && ats && section.items.flatMap((w) => w.positions.map((p) => (
+          <article class="cv-job cv-job-ats">
+            <div class="cv-row cv-job-head">
+              <h3 class="cv-company cv-title-lead">{p.title}</h3>
+              <span class="cv-dates">
+                <time datetime={p.startDate}>{formatDate(p.startDate)}</time>–{p.endDate ? <time datetime={p.endDate}>{formatDate(p.endDate)}</time> : "Present"}
+              </span>
+            </div>
+            <p class="cv-company-line">{w.name}</p>
+            {p.summary && <p class="cv-position-summary">{p.summary}</p>}
+            {p.highlights.length > 0 && (
+              <ul class="cv-highlights">
+                {p.highlights.map((h) => <li>{h.text}</li>)}
+              </ul>
+            )}
+          </article>
+        )))}
+
+        {section.type === "work" && !ats && section.items.map((w) => (
+          <article class="cv-job">
+            <div class="cv-row cv-job-head">
+              <h3 class="cv-company">{w.name}</h3>
+              <span class="cv-dates">
+                <time datetime={w.startDate}>{formatDate(w.startDate)}</time>–{w.endDate ? <time datetime={w.endDate}>{formatDate(w.endDate)}</time> : "Present"}
+              </span>
+            </div>
+            {w.description && <p class="cv-company-desc">{w.description}</p>}
+            {w.positions.map((p) => (
+              <div class="cv-position">
+                <div class="cv-row cv-position-head">
+                  <h4 class="cv-title">{p.title}</h4>
+                  {showPositionDates(w) && (
+                    <span class="cv-dates">
+                      <time datetime={p.startDate}>{formatDate(p.startDate)}</time>–{p.endDate ? <time datetime={p.endDate}>{formatDate(p.endDate)}</time> : "Present"}
+                    </span>
+                  )}
+                </div>
+                {p.summary && <p class="cv-position-summary">{p.summary}</p>}
+                {p.highlights.length > 0 && (
+                  <ul class="cv-highlights">
+                    {p.highlights.map((h) => <li>{h.text}</li>)}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </article>
+        ))}
+
+        {section.note && (
+          <p class="cv-note">{section.note.url ? <a href={section.note.url}>{section.note.text}</a> : section.note.text}</p>
+        )}
+      </section>
+    );
+  })}
+</main>

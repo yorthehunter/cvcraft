@@ -1,0 +1,17 @@
+---
+import ResumeLayout from "../../layouts/ResumeLayout.astro";
+import Resume from "../../../templates/single-column/Resume.astro";
+import { loadLibrary, publishedVariants, resolveVariant, type Variant } from "../../lib/resume";
+
+export function getStaticPaths() {
+  return publishedVariants(import.meta.env.DEV).map((variant) => ({ params: { variant: variant.id }, props: { variant } }));
+}
+
+const { variant } = Astro.props as { variant: Variant };
+const resume = resolveVariant(loadLibrary(), variant);
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${variant.id}/`;
+---
+
+<ResumeLayout resume={resume} template="single-column">
+  <Resume resume={resume} baseUrl={baseUrl} />
+</ResumeLayout>

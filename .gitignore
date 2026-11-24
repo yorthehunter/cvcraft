@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+# Real resume data never lives in this repo (D-018). It sits in ../cvcraft-data.
+data/
+*.private.json
+.astro/
+dist-send/
+send/
+.send-build/

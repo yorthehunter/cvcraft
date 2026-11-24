@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/variant.schema.json",
+  "id": "systems",
+  "title": "Design Systems",
+  "sharing": "listed",
+  "page": { "size": "letter", "maxPages": 1 },
+  "sections": [
+    { "type": "summary", "heading": "Summary", "ref": "summary.about" },
+    { "type": "skills", "heading": "Skills", "items": [{ "ref": "skill.systems" }, { "ref": "skill.product" }] },
+    { "type": "work", "heading": "Experience" },
+    { "type": "tools", "heading": "Tools" },
+    { "type": "education", "heading": "Education" }
+  ],
+  "notes": ["Leaves out every list, so it shows the whole library in library order."]
+}

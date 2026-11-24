@@ -1,0 +1,35 @@
+/*
+  Archivo, static weights, unmodified from the Archivo project
+  (github.com/Omnibus-Type/Archivo, commit 2111276, SIL OFL 1.1, see OFL.txt).
+  Used instead of Fontsource's files because those are internally named
+  "ArchivoSemiBold-…" at every weight, which makes PDF parsers that read font
+  names treat all text as bold (D-048).
+*/
+@font-face {
+  font-family: "Archivo";
+  src: url("./Archivo-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("./Archivo-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("./Archivo-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("./Archivo-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

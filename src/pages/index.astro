@@ -1,0 +1,108 @@
+---
+// Site root: a short index of the listed resumes (D-057). Unlisted and
+// files-only variants never appear here. Uses the template's fonts and tokens.
+import { join } from "node:path";
+import "../../templates/single-column/fonts/fonts.css";
+import { projectRoot } from "../lib/paths.mjs";
+import { tokensToCss } from "../lib/tokens";
+import { loadLibrary, publishedVariants } from "../lib/resume";
+
+const dev = import.meta.env.DEV;
+const lib = loadLibrary();
+const variants = publishedVariants(dev).filter((v) => dev || v.sharing === "listed");
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const tokenCss = tokensToCss(join(projectRoot, "templates", "single-column", "tokens.json"));
+const portfolio = lib.basics.profiles?.find((p) => p.network === "Portfolio");
+const title = `${lib.basics.name} — Resumes`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={`Resumes for ${lib.basics.name}.`} />
+    <meta name="color-scheme" content="light" />
+    <style set:html={tokenCss}></style>
+    <style>
+      body {
+        margin: 0;
+        background: var(--color-surface-canvas);
+        color: var(--color-text-default);
+        font: 400 16px/1.5 var(--font-family-body);
+      }
+      main {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 64px 16px;
+      }
+      h1 {
+        margin: 0;
+        font: 400 clamp(2rem, 6vw, 2.75rem) / 1.1 var(--font-family-display);
+      }
+      .lede {
+        margin: 0.5rem 0 2.5rem;
+        color: var(--color-text-muted);
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+      }
+      a.card {
+        display: block;
+        padding: 20px 22px;
+        background: var(--color-surface-page);
+        border: 1px solid var(--color-rule);
+        border-radius: 12px;
+        color: inherit;
+        text-decoration: none;
+      }
+      a.card:hover,
+      a.card:focus-visible {
+        border-color: var(--color-text-accent);
+        outline: none;
+      }
+      .card strong {
+        display: block;
+        font-weight: var(--font-weight-bold);
+        font-size: 1.15rem;
+      }
+      .card span {
+        color: var(--color-text-muted);
+      }
+      footer {
+        margin-top: 2.5rem;
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+      }
+      footer a {
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>{lib.basics.name}</h1>
+      <p class="lede">Resumes. Each prints as a clean document and downloads as PDF or Word.</p>
+      <ul>
+        {variants.map((v) => (
+          <li>
+            <a class="card" href={`${base}/${v.id}/`}>
+              <strong>{v.title}</strong>
+              <span>{v.label ?? lib.basics.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      {portfolio && (
+        <footer>
+          Portfolio: <a href={portfolio.url}>{portfolio.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}</a>
+        </footer>
+      )}
+    </main>
+  </body>
+</html>

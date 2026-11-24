@@ -1,0 +1,33 @@
+{
+  "name": "cvcraft",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Structured resume library with variants, published as print- and mobile-ready web pages.",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/validate.mjs && astro build",
+    "preview": "astro preview",
+    "validate": "node scripts/validate.mjs",
+    "validate:sample": "node scripts/validate.mjs --data sample-data",
+    "dev:sample": "CVCRAFT_DATA=sample-data astro dev",
+    "export": "node scripts/export.mjs",
+    "export:sample": "node scripts/export.mjs --data sample-data",
+    "check": "node scripts/check-outputs.mjs",
+    "publish-site": "node scripts/publish-site.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "esbuild": "0.25.12",
+    "mammoth": "^1.13.0",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "dependencies": {
+    "@fontsource/archivo-black": "^5.3.0",
+    "@fontsource/space-mono": "^5.3.0",
+    "astro": "^5.18.2",
+    "docx": "^9.16.0"
+  }
+}

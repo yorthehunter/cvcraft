@@ -1,0 +1,42 @@
+---
+// Page shell for a resume: metadata, fonts, tokens, print page box.
+// Archivo from the Archivo project itself: its files carry true weight names
+// (Archivo-Regular, Archivo-Bold…), which PDF parsers read to find bold text (D-048).
+import "../../templates/single-column/fonts/fonts.css";
+import "@fontsource/archivo-black/400.css";
+import "@fontsource/space-mono/400.css";
+import { join } from "node:path";
+import { projectRoot } from "../lib/paths.mjs";
+import { tokensToCss, tokenLiteral } from "../lib/tokens";
+import type { Resume } from "../lib/resume";
+
+interface Props {
+  resume: Resume;
+  template: string;
+}
+const { resume, template } = Astro.props;
+const tokenFile = join(projectRoot, "templates", template, "tokens.json");
+const tokenCss = tokensToCss(tokenFile);
+// @page can't read CSS variables, so its margins are written out literally.
+const pageCss = `@page { size: letter; margin: ${tokenLiteral(tokenFile, "page.margin-block")} ${tokenLiteral(tokenFile, "page.margin-inline")}; }`;
+const noindex = resume.variant.sharing !== "listed" || resume.build === "send";
+const title = `${resume.name} — Resume`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={`${resume.name}: ${resume.label}`} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="color-scheme" content="light" />
+    <style set:html={tokenCss}></style>
+    <style set:html={pageCss}></style>
+    <script type="application/ld+json" set:html={JSON.stringify(resume.jsonLd)}></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
