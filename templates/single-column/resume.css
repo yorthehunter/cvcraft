@@ -269,6 +269,7 @@ a:hover {
 @media screen and (max-width: 899.98px) {
   .cv-headline-part {
     display: inline;
+    white-space: nowrap; /* keep each phrase together; "AI-first" broke at its hyphen */
   }
   .cv-contact .cv-sep {
     display: none;

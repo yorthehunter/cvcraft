@@ -372,3 +372,13 @@ Every meaningful choice, with its reasoning, so the project can be explained lat
 - **Date**: 2026-11-24 · **Source**: Stated · **Status**: Accepted
 - **Refines**: D-055.
 - **Decision**: The Design Leadership headline reads "Principal Product Designer • Design Engineer, Design Systems • AI-first • Enterprise SaaS". The Google Doc still says "Principal Product Design • Design Engineer on Design Systems • …".
+
+---
+
+## D-057 · Deployed: repos, deploy script, site root
+- **Date**: 2026-11-24 · **Source**: Stated (deploy) + Defaulted (mechanics, root page) · **Status**: Accepted (deploy), Proposed (root page)
+- **Decision**:
+  - Code is the public repo `yorthehunter/cvcraft`; resume data is the private repo `yorthehunter/cvcraft-data` (D-018). The working folder is renamed from `resume-designer` to `cvcraft`, matching the URL path (D-020, D-021).
+  - `pnpm run publish-site` runs the full export and checks, then force-pushes only `dist/` (plus `.nojekyll`, so GitHub keeps Astro's `_astro/` folder) to the `gh-pages` branch. A failed check publishes nothing.
+  - The site root `/cvcraft/` lists the listed resumes (title and headline) with a link to the portfolio, in the template's fonts and colors. Unlisted and files-only variants never appear there.
+- **Why**: Closes D-021's open questions. Rebuilding `gh-pages` from scratch on each publish keeps it a pure copy of the checked public build, with no history of earlier builds to leak from.

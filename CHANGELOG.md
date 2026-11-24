@@ -4,6 +4,16 @@ All notable changes to this project. Format based on [Keep a Changelog](https://
 
 ## [Unreleased]
 
+### 2026-11-24 — M4: live on GitHub Pages
+- Renamed the working folder `resume-designer` → `cvcraft`; updated the data repo's schema links and the preview config.
+- Scanned all 39 files for the public repo before the first commit: no phone number, Google Doc ID, work email or job-search notes.
+- Created `yorthehunter/cvcraft` (public, code + sample data + docs) and `yorthehunter/cvcraft-data` (private, real resume data).
+- Added `pnpm run publish-site`: export + checks, then only `dist/` (with `.nojekyll`) force-pushed to `gh-pages`.
+- Site root now lists the listed resumes with headlines and a portfolio link (D-057).
+- Published: https://yorthehunter.github.io/cvcraft/ . Pages build succeeded; root, both resumes, PDF and .docx return 200; live page loads its fonts and styles, has no phone number, and is indexable.
+- Fixed: on phones, "AI-first" in the headline broke at its hyphen; headline phrases now stay whole.
+- Decision log: added D-057.
+
 ### 2026-11-24 — Headline wording
 - Design Leadership headline is now "Principal Product Designer • Design Engineer, Design Systems • AI-first • Enterprise SaaS" (the Doc reads "Principal Product Design • Design Engineer on Design Systems • …"). Decision log: D-056.
 

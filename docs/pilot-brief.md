@@ -1,6 +1,6 @@
 # CVCraft — Pilot Brief
 
-Started 2026-11-24. Status: **M0, M1 done; M3 outputs built, auto-checked and run through the OpenResume parser 2026-11-24; real ATS upload pending**. Pilot target: **usable by 2026-12-08**. See [decision-log.md](decision-log.md) for why each choice was made and [../CHANGELOG.md](../CHANGELOG.md) for what has shipped.
+Started 2026-11-24. Status: **Live 2026-11-24 at https://yorthehunter.github.io/cvcraft/ (M0, M1, M3, M4 done; Workday round 3 and the M2 editor next)**. See [decision-log.md](decision-log.md) for why each choice was made and [../CHANGELOG.md](../CHANGELOG.md) for what has shipped.
 
 ## Problem
 
@@ -138,7 +138,7 @@ The two-week target means the structured editor comes after the first real appli
 | M0 | Schema and content | Library and variant schemas exist; both resumes entered from the Google Doc (the current source of truth, not the older .docx files); fact conflicts resolved | 2026-11-27 · **Done 2026-11-24** |
 | M1 | Template and renderer | Template proposed and refined; both variants render as web pages with working print and mobile layouts and download buttons | 2026-12-02 · **Done 2026-11-24** (revised: no page limit, more whitespace) |
 | M3 | Outputs | Public and send builds of PDF and .docx; parse tests pass | 2026-12-05 · **Built, auto-checked and OpenResume-tested 2026-11-24 ([results](parse-tests.md)); real ATS upload pending** |
-| M4 | Publish and use | Variants live at `/cvcraft/`; one used in a real application | 2026-12-08 |
+| M4 | Publish and use | Variants live at `/cvcraft/`; one used in a real application | 2026-12-08 · **Live 2026-11-24**; real application pending |
 | M2 | Editor | Structured editing, variant picking/reordering/rewording, print + mobile preview, page count and page-break markers | After 2026-12-08 |
 
 Milestone numbers keep their original meaning; only the order changed.
@@ -150,7 +150,7 @@ Milestone numbers keep their original meaning; only the order changed.
 - ~~Print pagination preview~~ resolved: measure the sheet and print with headless Chrome; no polyfill (D-040).
 - **.docx fidelity.** Word's layout model differs from CSS; expect a simpler look. Acceptable because parsing matters more there (D-014).
 - **Leaking private data.** The public build must never include the phone number or unpublished variants. M3 adds an automated check of the built output before anything is pushed.
-- **URL root.** `yorthehunter.github.io/cvcraft/` itself needs something: a CVCraft project page (good for the article) or a redirect to the main variant. Decide in M4.
+- ~~URL root~~ resolved: lists the listed resumes (D-057).
 
 ## Still needed from Brian
 
